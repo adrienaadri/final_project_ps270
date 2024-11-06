@@ -32,7 +32,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -115,7 +115,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["index_files/anchor-4.2.2/anchor.min.js","index_files/bowser-1.9.3/bowser.min.js","index_files/distill-2.2.21/template.v2.js","index_files/header-attrs-2.17/header-attrs.js","index_files/jquery-3.6.0/jquery-3.6.0.js","index_files/jquery-3.6.0/jquery-3.6.0.min.js","index_files/jquery-3.6.0/jquery-3.6.0.min.map","index_files/popper-2.6.0/popper.min.js","index_files/tippy-6.2.7/tippy-bundle.umd.min.js","index_files/tippy-6.2.7/tippy-light-border.css","index_files/tippy-6.2.7/tippy.css","index_files/tippy-6.2.7/tippy.umd.min.js","index_files/webcomponents-2.0.0/webcomponents.js"]}
+  {"type":"character","attributes":{},"value":["index_files/anchor-4.2.2/anchor.min.js","index_files/bowser-1.9.3/bowser.min.js","index_files/distill-2.2.21/template.v2.js","index_files/figure-html5/unnamed-chunk-3-1.png","index_files/header-attrs-2.17/header-attrs.js","index_files/header-attrs-2.28/header-attrs.js","index_files/jquery-3.6.0/jquery-3.6.0.js","index_files/jquery-3.6.0/jquery-3.6.0.min.js","index_files/jquery-3.6.0/jquery-3.6.0.min.map","index_files/popper-2.6.0/popper.min.js","index_files/tippy-6.2.7/tippy-bundle.umd.min.js","index_files/tippy-6.2.7/tippy-light-border.css","index_files/tippy-6.2.7/tippy.css","index_files/tippy-6.2.7/tippy.umd.min.js","index_files/webcomponents-2.0.0/webcomponents.js","us_foreignaid_greenbook.xlsx"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
   <!--/radix_placeholder_navigation_in_header-->
@@ -1544,8 +1544,67 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
 <div class="d-article">
 <h2 id="project-thoughts">Project thoughts</h2>
-<p>I am interested in exploring data related to…</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<p>I am interested in exploring data related to the Political Polarization and US Foreign Aid.</p>
+<p>US Foreign Aid has always been a highly contested topic of discussion in US foreign affairs. Further political polarization of US politics seem to have an affect on the relationships the US have with recipient countries. This is especially important with the spike in state-based conflicts in recent years since 1946 (Peace Research Institute Oslo (PRIO)). I would like to explore how political polarization affect foreign aid budget allocation in the US. This can be done by looking at partisan control and foreign aid spending, as well as the type of aid.</p>
+<p>The Greenbook API dataset below was obtained from data.gov. It includes data on U.S. government (USG) foreign assistance dating back to 1945 to 2020, with the assistance categorized into either economic or military aid.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://readxl.tidyverse.org'>readxl</a></span><span class='op'>)</span></span>
+<span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/colearendt/xlsx'>xlsx</a></span><span class='op'>)</span></span>
+<span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://yihui.org/knitr/'>knitr</a></span><span class='op'>)</span></span>
+<span></span>
+<span><span class='va'>greenbook</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://readxl.tidyverse.org/reference/read_excel.html'>read_excel</a></span><span class='op'>(</span><span class='st'>"us_foreignaid_greenbook.xlsx"</span><span class='op'>)</span></span></code></pre>
+</div>
+</div>
+<p>We will narrow down the large dataset to only look at the last 20 years since 2020.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://tidyverse.tidyverse.org'>tidyverse</a></span><span class='op'>)</span></span>
+<span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://dplyr.tidyverse.org'>dplyr</a></span><span class='op'>)</span></span>
+<span></span>
+<span><span class='va'>greenbook_2000</span> <span class='op'>&lt;-</span> <span class='va'>greenbook</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>`Fiscal Year`</span> <span class='op'>&gt;=</span> <span class='fl'>2000</span><span class='op'>)</span></span>
+<span><span class='va'>greenbook_2000</span></span></code></pre>
+</div>
+<pre><code># A tibble: 48,936 × 9
+   `Fiscal Year` Region                  Country `Assistance Category`
+           &lt;dbl&gt; &lt;chr&gt;                   &lt;chr&gt;   &lt;chr&gt;                
+ 1          2000 Middle East and North … Algeria Economic             
+ 2          2000 Middle East and North … Algeria Economic             
+ 3          2000 Middle East and North … Algeria Economic             
+ 4          2000 Middle East and North … Algeria Military             
+ 5          2000 Middle East and North … Bahrain Economic             
+ 6          2000 Middle East and North … Bahrain Military             
+ 7          2000 Middle East and North … Bahrain Military             
+ 8          2000 Middle East and North … Egypt   Economic             
+ 9          2000 Middle East and North … Egypt   Economic             
+10          2000 Middle East and North … Egypt   Economic             
+# ℹ 48,926 more rows
+# ℹ 5 more variables: `Publication Row` &lt;chr&gt;,
+#   `Funding Agency` &lt;chr&gt;, `Funding Account Name` &lt;chr&gt;,
+#   `Obligations (Historical Dollars)` &lt;dbl&gt;,
+#   `Obligations (Constant Dollars)` &lt;dbl&gt;</code></pre>
+</div>
+<p>Let’s plot a graph to see the amount of foreign aid allocations based on different regions.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>greenbook_2000_Obs</span> <span class='op'>&lt;-</span> <span class='va'>greenbook_2000</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>Region</span><span class='op'>)</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarise</a></span><span class='op'>(</span>Total_Obligations <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span><span class='op'>(</span><span class='va'>`Obligations (Constant Dollars)`</span>, na.rm <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span> </span>
+<span></span>
+<span></span>
+<span><span class='va'>greenbook_2000_Obs</span><span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span>mapping <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>Total_Obligations</span>, </span>
+<span>                       y <span class='op'>=</span> <span class='va'>Region</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_bar.html'>geom_col</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span> </span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span>title <span class='op'>=</span> <span class='st'>"Total U.S. Foreign Aid Allocations by Region (2000-2020)"</span>,</span>
+<span>       x <span class='op'>=</span> <span class='st'>"Total Obligations (Constant Dollars)"</span>,</span>
+<span>       y <span class='op'>=</span> <span class='st'>"Region"</span><span class='op'>)</span></span></code></pre>
+</div>
+<p><img src="index_files/figure-html5/unnamed-chunk-3-1.png" width="624" /></p>
+</div>
+<p>A little confused on what the ‘world’ region is. Will check again to make sure from the dataset.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>

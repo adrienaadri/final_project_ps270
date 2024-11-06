@@ -11,4 +11,58 @@ output:
 
 ## Project thoughts
 
-I am interested in exploring data related to...
+I am interested in exploring data related to the Political Polarization and US Foreign Aid.
+
+US Foreign Aid has always been a highly contested topic of discussion in US foreign affairs. Further political polarization of US politics seem to have an affect on the relationships the US have with recipient countries. This is especially important with the spike in state-based conflicts in recent years since 1946 (Peace Research Institute Oslo (PRIO)). I would like to explore how political polarization affect foreign aid budget allocation in the US. This can be done by looking at partisan control and foreign aid spending, as well as the type of aid. 
+
+
+The Greenbook API dataset below was obtained from data.gov. It includes data on U.S. government (USG) foreign assistance dating back to 1945 to 2020, with the assistance categorized into either economic or military aid.
+
+```{r}
+library(readxl)
+library(xlsx)
+library(knitr)
+
+greenbook <- read_excel("us_foreignaid_greenbook.xlsx")
+
+```
+
+We will narrow down the large dataset to only look at the last 20 years since 2020.
+
+```{r}
+library(tidyverse)
+library(dplyr)
+
+greenbook_2000 <- greenbook |>
+  filter(`Fiscal Year` >= 2000)
+greenbook_2000
+```
+
+Let's plot a graph to see the amount of foreign aid allocations based on different regions.
+
+```{r}
+greenbook_2000_Obs <- greenbook_2000 |>
+  group_by(Region) |>
+  summarise(Total_Obligations = sum(`Obligations (Constant Dollars)`, na.rm = TRUE)) 
+
+
+greenbook_2000_Obs|>
+  ggplot(mapping = aes(x = Total_Obligations, 
+                       y = Region)) +
+  geom_col() + 
+  labs(title = "Total U.S. Foreign Aid Allocations by Region (2000-2020)",
+       x = "Total Obligations (Constant Dollars)",
+       y = "Region")
+```
+A little confused on what the 'world' region is. Will check again to make sure from the dataset.
+
+
+
+
+
+
+
+
+
+
+
