@@ -115,7 +115,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["c64a9fa9-a602-4b88-a7c8-03ac53067b2b_Series - Metadata.csv","index_files/anchor-4.2.2/anchor.min.js","index_files/bowser-1.9.3/bowser.min.js","index_files/distill-2.2.21/template.v2.js","index_files/figure-html5/unnamed-chunk-3-1.png","index_files/figure-html5/unnamed-chunk-5-1.png","index_files/figure-html5/unnamed-chunk-7-1.png","index_files/figure-html5/unnamed-chunk-8-1.png","index_files/header-attrs-2.17/header-attrs.js","index_files/header-attrs-2.28/header-attrs.js","index_files/jquery-3.6.0/jquery-3.6.0.js","index_files/jquery-3.6.0/jquery-3.6.0.min.js","index_files/jquery-3.6.0/jquery-3.6.0.min.map","index_files/popper-2.6.0/popper.min.js","index_files/tippy-6.2.7/tippy-bundle.umd.min.js","index_files/tippy-6.2.7/tippy-light-border.css","index_files/tippy-6.2.7/tippy.css","index_files/tippy-6.2.7/tippy.umd.min.js","index_files/webcomponents-2.0.0/webcomponents.js","Polarization 2014 public.sav","us_foreignaid_greenbook.xlsx"]}
+  {"type":"character","attributes":{},"value":["c64a9fa9-a602-4b88-a7c8-03ac53067b2b_Series - Metadata.csv","index_files/anchor-4.2.2/anchor.min.js","index_files/bowser-1.9.3/bowser.min.js","index_files/distill-2.2.21/template.v2.js","index_files/figure-html5/unnamed-chunk-3-1.png","index_files/figure-html5/unnamed-chunk-5-1.png","index_files/figure-html5/unnamed-chunk-7-1.png","index_files/figure-html5/unnamed-chunk-8-1.png","index_files/header-attrs-2.17/header-attrs.js","index_files/header-attrs-2.28/header-attrs.js","index_files/header-attrs-2.29/header-attrs.js","index_files/jquery-3.6.0/jquery-3.6.0.js","index_files/jquery-3.6.0/jquery-3.6.0.min.js","index_files/jquery-3.6.0/jquery-3.6.0.min.map","index_files/popper-2.6.0/popper.min.js","index_files/tippy-6.2.7/tippy-bundle.umd.min.js","index_files/tippy-6.2.7/tippy-light-border.css","index_files/tippy-6.2.7/tippy.css","index_files/tippy-6.2.7/tippy.umd.min.js","index_files/webcomponents-2.0.0/webcomponents.js","Polarization 2014 public.sav","us_foreignaid_greenbook.xlsx"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
   <!--/radix_placeholder_navigation_in_header-->
@@ -1615,7 +1615,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 10 GDP (current US$) Albania     2016  11861199830.8396
 # ℹ 1,901 more rows</code></pre>
 </div>
-Let’s join the two datasets.
+<p>Let’s join the two datasets.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>greenbook_14</span> <span class='op'>&lt;-</span> <span class='va'>greenbook_14</span> <span class='op'>|&gt;</span></span>
@@ -1675,7 +1675,7 @@ Let’s join the two datasets.
 # ℹ 1,054 more rows
 # ℹ 3 more variables: GDP &lt;dbl&gt;, Aid_Type &lt;chr&gt;, GDP_Growth &lt;dbl&gt;</code></pre>
 </div>
-Now that we have everything we need, let’s visualize GDP growth
+<p>Now that we have everything we need, let’s visualize GDP growth</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>joined_book</span> <span class='op'>|&gt;</span></span>
@@ -1720,8 +1720,9 @@ Now that we have everything we need, let’s visualize GDP growth
 1 Economic Aid            1.41
 2 Military Aid            1.64</code></pre>
 </div>
-<p>This suggests that countries that mainly received military aid sees the highest average gdp growth compared to those that mainly received economic aid.</p>
-Now let’s also see a scatterplot of GDP growth vs. aid amounts (economic/military) to see possible trends.
+<p>T
+his suggests that countries that mainly received military aid sees the highest average gdp growth compared to those that mainly received economic aid.</p>
+<p>Now let’s also see a scatterplot of GDP growth vs. aid amounts (economic/military) to see possible trends.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>joined_book</span> <span class='op'>|&gt;</span></span>
@@ -1734,7 +1735,7 @@ Now let’s also see a scatterplot of GDP growth vs. aid amounts (economic/mili
 </div>
 <p><img src="index_files/figure-html5/unnamed-chunk-8-1.png" width="624" /></p>
 </div>
-By doing a linear regression analysis, we can study whether economic or military aid has a significant impact on GDP growth.
+<p>By doing a linear regression analysis, we can study whether economic or military aid has a significant impact on GDP growth.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>model_multiple</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>GDP_Growth</span> <span class='op'>~</span> <span class='va'>Economic</span> <span class='op'>+</span> <span class='va'>Military</span>, data <span class='op'>=</span> <span class='va'>joined_book</span><span class='op'>)</span></span>

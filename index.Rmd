@@ -33,6 +33,7 @@ greenbook <- read_excel("us_foreignaid_greenbook.xlsx")
 gdp <- read_csv("c64a9fa9-a602-4b88-a7c8-03ac53067b2b_Series - Metadata.csv")
 ```
 
+
 We will narrow down the large dataset to only look at the years 2014-2020. 
 
 ```{r}
@@ -58,7 +59,9 @@ gdp_14 <- gdp |>
 gdp_14
 ```
 
+
 Let's join the two datasets.
+
 ```{r}
 greenbook_14 <- greenbook_14 |>
   mutate(Year = as.character(Year))
@@ -86,7 +89,11 @@ joined_book <- joined_book |>
 joined_book
 
 ```
+
+
+
 Now that we have everything we need, let's visualize GDP growth
+
 ```{r}
 joined_book |>
   ggplot(aes(x = Aid_Type, y = GDP_Growth, fill = Aid_Type)) +
@@ -119,10 +126,12 @@ ggplot(aes(x = Aid_Type, y = Mean_GDP_Growth, fill = Aid_Type)) +
 mean_gdp_growth_by_aid_type
   
 ```
-This suggests that countries that mainly received military aid sees the highest average gdp growth compared to those that mainly received economic aid.
+T
+his suggests that countries that mainly received military aid sees the highest average gdp growth compared to those that mainly received economic aid.
 
 
 Now let's also see a scatterplot of GDP growth vs. aid amounts (economic/military) to see possible trends.
+
 ```{r}
 joined_book |>
   ggplot(aes(x = Economic, y = GDP_Growth, color = Aid_Type)) +
@@ -136,6 +145,7 @@ joined_book |>
 
 
 By doing a linear regression analysis, we can study whether economic or military aid has a significant impact on GDP growth.
+
 ```{r}
 model_multiple <- lm(GDP_Growth ~ Economic + Military, data = joined_book)
 model_multiple
