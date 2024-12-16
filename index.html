@@ -115,7 +115,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["index_files/anchor-4.2.2/anchor.min.js","index_files/bowser-1.9.3/bowser.min.js","index_files/distill-2.2.21/template.v2.js","index_files/figure-html5/unnamed-chunk-3-1.png","index_files/header-attrs-2.17/header-attrs.js","index_files/header-attrs-2.28/header-attrs.js","index_files/jquery-3.6.0/jquery-3.6.0.js","index_files/jquery-3.6.0/jquery-3.6.0.min.js","index_files/jquery-3.6.0/jquery-3.6.0.min.map","index_files/popper-2.6.0/popper.min.js","index_files/tippy-6.2.7/tippy-bundle.umd.min.js","index_files/tippy-6.2.7/tippy-light-border.css","index_files/tippy-6.2.7/tippy.css","index_files/tippy-6.2.7/tippy.umd.min.js","index_files/webcomponents-2.0.0/webcomponents.js","us_foreignaid_greenbook.xlsx"]}
+  {"type":"character","attributes":{},"value":["c64a9fa9-a602-4b88-a7c8-03ac53067b2b_Series - Metadata.csv","index_files/anchor-4.2.2/anchor.min.js","index_files/bowser-1.9.3/bowser.min.js","index_files/distill-2.2.21/template.v2.js","index_files/figure-html5/unnamed-chunk-3-1.png","index_files/figure-html5/unnamed-chunk-5-1.png","index_files/figure-html5/unnamed-chunk-7-1.png","index_files/figure-html5/unnamed-chunk-8-1.png","index_files/header-attrs-2.17/header-attrs.js","index_files/header-attrs-2.28/header-attrs.js","index_files/jquery-3.6.0/jquery-3.6.0.js","index_files/jquery-3.6.0/jquery-3.6.0.min.js","index_files/jquery-3.6.0/jquery-3.6.0.min.map","index_files/popper-2.6.0/popper.min.js","index_files/tippy-6.2.7/tippy-bundle.umd.min.js","index_files/tippy-6.2.7/tippy-light-border.css","index_files/tippy-6.2.7/tippy.css","index_files/tippy-6.2.7/tippy.umd.min.js","index_files/webcomponents-2.0.0/webcomponents.js","Polarization 2014 public.sav","us_foreignaid_greenbook.xlsx"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
   <!--/radix_placeholder_navigation_in_header-->
@@ -1497,7 +1497,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </script>
 
   <!--/radix_placeholder_distill-->
-  <script src="index_files/header-attrs-2.28/header-attrs.js"></script>
+  <script src="index_files/header-attrs-2.29/header-attrs.js"></script>
   <script src="index_files/jquery-3.6.0/jquery-3.6.0.min.js"></script>
   <script src="index_files/popper-2.6.0/popper.min.js"></script>
   <link href="index_files/tippy-6.2.7/tippy.css" rel="stylesheet" />
@@ -1543,68 +1543,285 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </div>
 
 <div class="d-article">
-<h2 id="project-thoughts">Project thoughts</h2>
-<p>I am interested in exploring data related to the Political Polarization and US Foreign Aid.</p>
-<p>US Foreign Aid has always been a highly contested topic of discussion in US foreign affairs. Further political polarization of US politics seem to have an affect on the relationships the US have with recipient countries. This is especially important with the spike in state-based conflicts in recent years since 1946 (Peace Research Institute Oslo (PRIO)). I would like to explore how political polarization affect foreign aid budget allocation in the US. This can be done by looking at partisan control and foreign aid spending, as well as the type of aid.</p>
+<h2 id="introduction">Introduction</h2>
+<p>I am interested in exploring data related to how the type of U.S. foreign aid (economic vs. military) impacts GDP growth of recipient countries differently.</p>
+<p>US Foreign Aid has always been a highly contested topic of discussion in US foreign affairs. This is especially important with the spike in state-based conflicts in recent years since 1946 (Peace Research Institute Oslo (PRIO)). I would like to explore whether economic aid consistently show a stronger positive correlation with GDP growth than military aid. Economic aid is expected to have a stronger positive impact on GDP growth compared to military aid due to its direct impact on infrastructure, education, and markets, whereas military aid may have less consistent economic spillover effects.</p>
+<h2 id="data">Data</h2>
+<p>This study uses a cross-sectional design, focusing on the relationship between U.S. foreign aid (economic vs. military) and GDP growth in recipient countries from 2014 to 2020. This design allows for the comparison of aid allocations and their impact on GDP growth at a specific point in time across various countries, without manipulating the timing or experimental treatment of aid.</p>
 <p>The Greenbook API dataset below was obtained from data.gov. It includes data on U.S. government (USG) foreign assistance dating back to 1945 to 2020, with the assistance categorized into either economic or military aid.</p>
+<p>The gdp dataset was obtained from World Bank Group from <a href="https://databank.worldbank.org/reports.aspx?source=2&amp;series=NY.GDP.MKTP.CD&amp;country#" class="uri">https://databank.worldbank.org/reports.aspx?source=2&amp;series=NY.GDP.MKTP.CD&amp;country#</a></p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://readxl.tidyverse.org'>readxl</a></span><span class='op'>)</span></span>
 <span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/colearendt/xlsx'>xlsx</a></span><span class='op'>)</span></span>
 <span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://yihui.org/knitr/'>knitr</a></span><span class='op'>)</span></span>
+<span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://tidyverse.tidyverse.org'>tidyverse</a></span> <span class='op'>)</span></span>
 <span></span>
-<span><span class='va'>greenbook</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://readxl.tidyverse.org/reference/read_excel.html'>read_excel</a></span><span class='op'>(</span><span class='st'>"us_foreignaid_greenbook.xlsx"</span><span class='op'>)</span></span></code></pre>
+<span><span class='va'>greenbook</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://readxl.tidyverse.org/reference/read_excel.html'>read_excel</a></span><span class='op'>(</span><span class='st'>"us_foreignaid_greenbook.xlsx"</span><span class='op'>)</span></span>
+<span><span class='va'>gdp</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://readr.tidyverse.org/reference/read_delim.html'>read_csv</a></span><span class='op'>(</span><span class='st'>"c64a9fa9-a602-4b88-a7c8-03ac53067b2b_Series - Metadata.csv"</span><span class='op'>)</span></span></code></pre>
 </div>
 </div>
-<p>We will narrow down the large dataset to only look at the last 20 years since 2020.</p>
+<p>We will narrow down the large dataset to only look at the years 2014-2020.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://tidyverse.tidyverse.org'>tidyverse</a></span><span class='op'>)</span></span>
 <span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://dplyr.tidyverse.org'>dplyr</a></span><span class='op'>)</span></span>
 <span></span>
-<span><span class='va'>greenbook_2000</span> <span class='op'>&lt;-</span> <span class='va'>greenbook</span> <span class='op'>|&gt;</span></span>
-<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>`Fiscal Year`</span> <span class='op'>&gt;=</span> <span class='fl'>2000</span><span class='op'>)</span></span>
-<span><span class='va'>greenbook_2000</span></span></code></pre>
+<span><span class='va'>greenbook_14</span> <span class='op'>&lt;-</span> <span class='va'>greenbook</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>`Fiscal Year`</span> <span class='op'>&gt;=</span> <span class='fl'>2014</span><span class='op'>)</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>Country</span>, <span class='va'>`Fiscal Year`</span>, <span class='va'>`Assistance Category`</span><span class='op'>)</span> <span class='op'>|&gt;</span></span>
+<span>   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarize</a></span><span class='op'>(</span>Total_Obligations <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span><span class='op'>(</span><span class='va'>`Obligations (Constant Dollars)`</span>, na.rm <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>, .groups <span class='op'>=</span> <span class='st'>"drop"</span><span class='op'>)</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://tidyr.tidyverse.org/reference/pivot_wider.html'>pivot_wider</a></span><span class='op'>(</span>names_from <span class='op'>=</span> <span class='va'>`Assistance Category`</span>,</span>
+<span>              values_from <span class='op'>=</span> <span class='va'>Total_Obligations</span><span class='op'>)</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>Total_Obligations <span class='op'>=</span> <span class='va'>`Economic`</span> <span class='op'>+</span> <span class='va'>`Military`</span><span class='op'>)</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/rename.html'>rename</a></span><span class='op'>(</span>Year <span class='op'>=</span> <span class='va'>`Fiscal Year`</span><span class='op'>)</span></span>
+<span><span class='va'>greenbook_14</span></span></code></pre>
 </div>
-<pre><code># A tibble: 48,936 × 9
-   `Fiscal Year` Region                  Country `Assistance Category`
-           &lt;dbl&gt; &lt;chr&gt;                   &lt;chr&gt;   &lt;chr&gt;                
- 1          2000 Middle East and North … Algeria Economic             
- 2          2000 Middle East and North … Algeria Economic             
- 3          2000 Middle East and North … Algeria Economic             
- 4          2000 Middle East and North … Algeria Military             
- 5          2000 Middle East and North … Bahrain Economic             
- 6          2000 Middle East and North … Bahrain Military             
- 7          2000 Middle East and North … Bahrain Military             
- 8          2000 Middle East and North … Egypt   Economic             
- 9          2000 Middle East and North … Egypt   Economic             
-10          2000 Middle East and North … Egypt   Economic             
-# ℹ 48,926 more rows
-# ℹ 5 more variables: `Publication Row` &lt;chr&gt;,
-#   `Funding Agency` &lt;chr&gt;, `Funding Account Name` &lt;chr&gt;,
-#   `Obligations (Historical Dollars)` &lt;dbl&gt;,
-#   `Obligations (Constant Dollars)` &lt;dbl&gt;</code></pre>
+<pre><code># A tibble: 1,361 × 5
+   Country      Year   Economic   Military Total_Obligations
+   &lt;chr&gt;       &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt;             &lt;dbl&gt;
+ 1 Afghanistan  2014 2513875663 5351992976        7865868639
+ 2 Afghanistan  2015 2301036937 6662268093        8963305030
+ 3 Afghanistan  2016 1257928273 4182491949        5440420222
+ 4 Afghanistan  2017 1385712188 4701274852        6086987040
+ 5 Afghanistan  2018 1011051401 5128154564        6139205965
+ 6 Afghanistan  2019 1239559805 3710637872        4950197677
+ 7 Afghanistan  2020 1184825407 2761464052        3946289459
+ 8 Albania      2014   25001335    4376792          29378127
+ 9 Albania      2015   26625155    3818423          30443578
+10 Albania      2016   18376435   11159154          29535589
+# ℹ 1,351 more rows</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>gdp_14</span> <span class='op'>&lt;-</span> <span class='va'>gdp</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span><span class='op'>(</span><span class='op'>-</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>`Series Code`</span>, <span class='va'>`Country Code`</span>, <span class='va'>`1990 [YR1990]`</span>, <span class='va'>`2000 [YR2000]`</span>, <span class='va'>`2021 [YR2021]`</span>, <span class='va'>`2022 [YR2022]`</span>, <span class='va'>`2023 [YR2023]`</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://tidyr.tidyverse.org/reference/pivot_longer.html'>pivot_longer</a></span><span class='op'>(</span>cols <span class='op'>=</span> <span class='fu'><a href='https://tidyselect.r-lib.org/reference/starts_with.html'>starts_with</a></span><span class='op'>(</span><span class='st'>"20"</span><span class='op'>)</span>,</span>
+<span>               names_to <span class='op'>=</span> <span class='st'>"Year"</span>, values_to <span class='op'>=</span> <span class='st'>"GDP"</span><span class='op'>)</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>Year <span class='op'>=</span> <span class='fu'><a href='https://stringr.tidyverse.org/reference/str_extract.html'>str_extract</a></span><span class='op'>(</span><span class='va'>Year</span>, <span class='st'>"\\d{4}"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/rename.html'>rename</a></span><span class='op'>(</span>Country <span class='op'>=</span> <span class='va'>`Country Name`</span><span class='op'>)</span></span>
+<span><span class='va'>gdp_14</span></span></code></pre>
 </div>
-<p>Let’s plot a graph to see the amount of foreign aid allocations based on different regions.</p>
+<pre><code># A tibble: 1,911 × 4
+   `Series Name`     Country     Year  GDP             
+   &lt;chr&gt;             &lt;chr&gt;       &lt;chr&gt; &lt;chr&gt;           
+ 1 GDP (current US$) Afghanistan 2014  20497128555.6972
+ 2 GDP (current US$) Afghanistan 2015  19134221644.7325
+ 3 GDP (current US$) Afghanistan 2016  18116572395.0772
+ 4 GDP (current US$) Afghanistan 2017  18753456497.8159
+ 5 GDP (current US$) Afghanistan 2018  18053222687.4126
+ 6 GDP (current US$) Afghanistan 2019  18799444490.1128
+ 7 GDP (current US$) Afghanistan 2020  19955929052.1496
+ 8 GDP (current US$) Albania     2014  13228147516.1168
+ 9 GDP (current US$) Albania     2015  11386853113.0189
+10 GDP (current US$) Albania     2016  11861199830.8396
+# ℹ 1,901 more rows</code></pre>
+</div>
+Let’s join the two datasets.
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>greenbook_2000_Obs</span> <span class='op'>&lt;-</span> <span class='va'>greenbook_2000</span> <span class='op'>|&gt;</span></span>
-<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>Region</span><span class='op'>)</span> <span class='op'>|&gt;</span></span>
-<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarise</a></span><span class='op'>(</span>Total_Obligations <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span><span class='op'>(</span><span class='va'>`Obligations (Constant Dollars)`</span>, na.rm <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span> </span>
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>greenbook_14</span> <span class='op'>&lt;-</span> <span class='va'>greenbook_14</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>Year <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>as.character</a></span><span class='op'>(</span><span class='va'>Year</span><span class='op'>)</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='va'>gdp_14</span> <span class='op'>&lt;-</span> <span class='va'>gdp_14</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>Year <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>as.character</a></span><span class='op'>(</span><span class='va'>Year</span><span class='op'>)</span><span class='op'>)</span></span>
 <span></span>
 <span></span>
-<span><span class='va'>greenbook_2000_Obs</span><span class='op'>|&gt;</span></span>
-<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span>mapping <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>Total_Obligations</span>, </span>
-<span>                       y <span class='op'>=</span> <span class='va'>Region</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
-<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_bar.html'>geom_col</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span> </span>
-<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span>title <span class='op'>=</span> <span class='st'>"Total U.S. Foreign Aid Allocations by Region (2000-2020)"</span>,</span>
-<span>       x <span class='op'>=</span> <span class='st'>"Total Obligations (Constant Dollars)"</span>,</span>
-<span>       y <span class='op'>=</span> <span class='st'>"Region"</span><span class='op'>)</span></span></code></pre>
+<span><span class='va'>joined_book</span> <span class='op'>&lt;-</span> <span class='va'>greenbook_14</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate-joins.html'>left_join</a></span><span class='op'>(</span><span class='va'>gdp_14</span>, by <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Country"</span>, <span class='st'>"Year"</span><span class='op'>)</span><span class='op'>)</span> </span>
+<span><span class='va'>joined_book</span></span></code></pre>
 </div>
-<p><img src="index_files/figure-html5/unnamed-chunk-3-1.png" width="624" /></p>
+<pre><code># A tibble: 1,361 × 7
+   Country     Year  Economic Military Total_Obligations `Series Name`
+   &lt;chr&gt;       &lt;chr&gt;    &lt;dbl&gt;    &lt;dbl&gt;             &lt;dbl&gt; &lt;chr&gt;        
+ 1 Afghanistan 2014    2.51e9   5.35e9        7865868639 GDP (current…
+ 2 Afghanistan 2015    2.30e9   6.66e9        8963305030 GDP (current…
+ 3 Afghanistan 2016    1.26e9   4.18e9        5440420222 GDP (current…
+ 4 Afghanistan 2017    1.39e9   4.70e9        6086987040 GDP (current…
+ 5 Afghanistan 2018    1.01e9   5.13e9        6139205965 GDP (current…
+ 6 Afghanistan 2019    1.24e9   3.71e9        4950197677 GDP (current…
+ 7 Afghanistan 2020    1.18e9   2.76e9        3946289459 GDP (current…
+ 8 Albania     2014    2.50e7   4.38e6          29378127 GDP (current…
+ 9 Albania     2015    2.66e7   3.82e6          30443578 GDP (current…
+10 Albania     2016    1.84e7   1.12e7          29535589 GDP (current…
+# ℹ 1,351 more rows
+# ℹ 1 more variable: GDP &lt;chr&gt;</code></pre>
 </div>
-<p>A little confused on what the ‘world’ region is. Will check again to make sure from the dataset.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>joined_book</span> <span class='op'>&lt;-</span> <span class='va'>joined_book</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>GDP <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span><span class='op'>(</span><span class='va'>GDP</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>Aid_Type <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/ifelse.html'>ifelse</a></span><span class='op'>(</span><span class='va'>Economic</span> <span class='op'>&gt;</span> <span class='va'>Military</span>, <span class='st'>"Economic Aid"</span>, <span class='st'>"Military Aid"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>Aid_Type</span><span class='op'>)</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='va'>joined_book</span> <span class='op'>&lt;-</span> <span class='va'>joined_book</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/arrange.html'>arrange</a></span><span class='op'>(</span><span class='va'>Country</span>, <span class='va'>Year</span><span class='op'>)</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>Country</span><span class='op'>)</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>GDP_Growth <span class='op'>=</span> <span class='op'>(</span><span class='va'>GDP</span> <span class='op'>-</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/lead-lag.html'>lag</a></span><span class='op'>(</span><span class='va'>GDP</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>/</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/lead-lag.html'>lag</a></span><span class='op'>(</span><span class='va'>GDP</span><span class='op'>)</span> <span class='op'>*</span> <span class='fl'>100</span><span class='op'>)</span></span>
+<span><span class='va'>joined_book</span></span></code></pre>
+</div>
+<pre><code># A tibble: 1,064 × 9
+# Groups:   Country [189]
+   Country     Year  Economic Military Total_Obligations `Series Name`
+   &lt;chr&gt;       &lt;chr&gt;    &lt;dbl&gt;    &lt;dbl&gt;             &lt;dbl&gt; &lt;chr&gt;        
+ 1 Afghanistan 2014    2.51e9   5.35e9        7865868639 GDP (current…
+ 2 Afghanistan 2015    2.30e9   6.66e9        8963305030 GDP (current…
+ 3 Afghanistan 2016    1.26e9   4.18e9        5440420222 GDP (current…
+ 4 Afghanistan 2017    1.39e9   4.70e9        6086987040 GDP (current…
+ 5 Afghanistan 2018    1.01e9   5.13e9        6139205965 GDP (current…
+ 6 Afghanistan 2019    1.24e9   3.71e9        4950197677 GDP (current…
+ 7 Afghanistan 2020    1.18e9   2.76e9        3946289459 GDP (current…
+ 8 Albania     2014    2.50e7   4.38e6          29378127 GDP (current…
+ 9 Albania     2015    2.66e7   3.82e6          30443578 GDP (current…
+10 Albania     2016    1.84e7   1.12e7          29535589 GDP (current…
+# ℹ 1,054 more rows
+# ℹ 3 more variables: GDP &lt;dbl&gt;, Aid_Type &lt;chr&gt;, GDP_Growth &lt;dbl&gt;</code></pre>
+</div>
+Now that we have everything we need, let’s visualize GDP growth
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>joined_book</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>Aid_Type</span>, y <span class='op'>=</span> <span class='va'>GDP_Growth</span>, fill <span class='op'>=</span> <span class='va'>Aid_Type</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_boxplot.html'>geom_boxplot</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span>title <span class='op'>=</span> <span class='st'>"GDP Growth by Aid Type"</span>,</span>
+<span>       x <span class='op'>=</span> <span class='st'>"Aid Type"</span>,</span>
+<span>       y <span class='op'>=</span> <span class='st'>"GDP Growth (%)"</span><span class='op'>)</span></span></code></pre>
+</div>
+<p><img src="index_files/figure-html5/unnamed-chunk-5-1.png" width="624" /></p>
+</div>
+<h3 id="results">Results</h3>
+<p>Now, we can compare the average gdp growth between countries that mainly receive military or economic aid. Because most countries receive both military and economic aid, will simplify our analysis by creating a binary classification based on which type of aid is higher for each country during a given year. Then, we can calculate the mean GDP growth for each group. With this, we can eventually run a linear regression analysis where the null hypothesis is: there is no difference in the mean GDP growth between countries that primarily receive military aid and those that primarily receive economic aid.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>mean_gdp_growth_by_aid_type</span> <span class='op'>&lt;-</span> <span class='va'>joined_book</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>GDP_Growth</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>Aid_Type</span><span class='op'>)</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarise</a></span><span class='op'>(</span>Mean_GDP_Growth <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>GDP_Growth</span>, na.rm <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span></span>
+<span><span class='va'>mean_gdp_growth_by_aid_type</span></span></code></pre>
+</div>
+<pre><code># A tibble: 2 × 2
+  Aid_Type     Mean_GDP_Growth
+  &lt;chr&gt;                  &lt;dbl&gt;
+1 Economic Aid            1.41
+2 Military Aid            1.64</code></pre>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>mean_gdp_growth_by_aid_type</span> <span class='op'>|&gt;</span></span>
+<span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>Aid_Type</span>, y <span class='op'>=</span> <span class='va'>Mean_GDP_Growth</span>, fill <span class='op'>=</span> <span class='va'>Aid_Type</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_bar.html'>geom_bar</a></span><span class='op'>(</span>stat <span class='op'>=</span> <span class='st'>"identity"</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span>title <span class='op'>=</span> <span class='st'>"Mean GDP Growth by Aid Type"</span>, x <span class='op'>=</span> <span class='st'>"Aid Type"</span>, y <span class='op'>=</span> <span class='st'>"Mean GDP Growth (%)"</span><span class='op'>)</span> </span></code></pre>
+</div>
+<img src="index_files/figure-html5/unnamed-chunk-7-1.png" width="624" />
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>mean_gdp_growth_by_aid_type</span></span></code></pre>
+</div>
+<pre><code># A tibble: 2 × 2
+  Aid_Type     Mean_GDP_Growth
+  &lt;chr&gt;                  &lt;dbl&gt;
+1 Economic Aid            1.41
+2 Military Aid            1.64</code></pre>
+</div>
+<p>This suggests that countries that mainly received military aid sees the highest average gdp growth compared to those that mainly received economic aid.</p>
+Now let’s also see a scatterplot of GDP growth vs. aid amounts (economic/military) to see possible trends.
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>joined_book</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>Economic</span>, y <span class='op'>=</span> <span class='va'>GDP_Growth</span>, color <span class='op'>=</span> <span class='va'>Aid_Type</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_point.html'>geom_point</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/scale_continuous.html'>scale_x_log10</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span>title <span class='op'>=</span> <span class='st'>"GDP Growth vs. Economic Aid (Log Scale)"</span>,</span>
+<span>       x <span class='op'>=</span> <span class='st'>"Economic Aid (log scale, in $)"</span>,</span>
+<span>       y <span class='op'>=</span> <span class='st'>"GDP Growth (%)"</span><span class='op'>)</span></span></code></pre>
+</div>
+<p><img src="index_files/figure-html5/unnamed-chunk-8-1.png" width="624" /></p>
+</div>
+By doing a linear regression analysis, we can study whether economic or military aid has a significant impact on GDP growth.
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>model_multiple</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>GDP_Growth</span> <span class='op'>~</span> <span class='va'>Economic</span> <span class='op'>+</span> <span class='va'>Military</span>, data <span class='op'>=</span> <span class='va'>joined_book</span><span class='op'>)</span></span>
+<span><span class='va'>model_multiple</span></span></code></pre>
+</div>
+<pre><code>
+Call:
+lm(formula = GDP_Growth ~ Economic + Military, data = joined_book)
+
+Coefficients:
+(Intercept)     Economic     Military  
+  1.325e+00    1.124e-09   -3.177e-10  </code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='fu'>modelsummary</span><span class='fu'>::</span><span class='fu'><a href='https://modelsummary.com/man/modelsummary.html'>modelsummary</a></span><span class='op'>(</span><span class='va'>model_multiple</span>,</span>
+<span>                           statistic <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"s.e. = {std.error}"</span>,</span>
+<span>                                         <span class='st'>"p = {p.value}"</span><span class='op'>)</span>,</span>
+<span>                           gof_map <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"nobs"</span>, <span class='st'>"r.squared"</span>, <span class='st'>"adj.r.squared"</span><span class='op'>)</span><span class='op'>)</span></span></code></pre>
+</div>
+<table style="width:40%;">
+<colgroup>
+<col style="width: 19%" />
+<col style="width: 20%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th><ol type="1">
+<li></li>
+</ol></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>(Intercept)</td>
+<td>1.325</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>s.e. = 0.435</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td>p = 0.002</td>
+</tr>
+<tr class="even">
+<td>Economic</td>
+<td>0.000</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td>s.e. = 0.000</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>p = 0.461</td>
+</tr>
+<tr class="odd">
+<td>Military</td>
+<td>0.000</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>s.e. = 0.000</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td>p = 0.678</td>
+</tr>
+<tr class="even">
+<td>Num.Obs.</td>
+<td>743</td>
+</tr>
+<tr class="odd">
+<td>R2</td>
+<td>0.001</td>
+</tr>
+<tr class="even">
+<td>R2 Adj.</td>
+<td>-0.002</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The regression above estimates the relationship between GDP growth and economic and military aid. At significance level of 0.05, we see that both p-values for Economic aid and Military aid are not statistically significant. This suggests that we cannot reject the null hypothesis that these coefficients are equal to zero, implying no significant relationship between these forms of aid and GDP growth during the study period.</p>
+<p>The coeffecients both being 0.000 might be a result of a scaling isue, or a different underlying issue that I was unable to figure out. If I had more time and money, perhaps my data would not be limited to a short sample (7 years). GDP growth might be better tracked over larger periods of time, which I was unable to do due to problems with joining the datasets (one being shorter than the other).</p>
+<p>In conclusion, the regression suggests that there is no strong evidence that economic aid or military aid has an affect on GDP growth on recipent countries, based on the data that was available. There are likely other factors like political stability, governance, and external shocks that influence GDP growth, which are also not accounted for in this simple model.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>

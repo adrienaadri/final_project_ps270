@@ -9,52 +9,149 @@ output:
 
 
 
-## Project thoughts
+## Introduction
 
-I am interested in exploring data related to the Political Polarization and US Foreign Aid.
+I am interested in exploring data related to how the type of U.S. foreign aid (economic vs. military) impacts GDP growth of recipient countries differently.
 
-US Foreign Aid has always been a highly contested topic of discussion in US foreign affairs. Further political polarization of US politics seem to have an affect on the relationships the US have with recipient countries. This is especially important with the spike in state-based conflicts in recent years since 1946 (Peace Research Institute Oslo (PRIO)). I would like to explore how political polarization affect foreign aid budget allocation in the US. This can be done by looking at partisan control and foreign aid spending, as well as the type of aid. 
+US Foreign Aid has always been a highly contested topic of discussion in US foreign affairs. This is especially important with the spike in state-based conflicts in recent years since 1946 (Peace Research Institute Oslo (PRIO)). I would like to explore whether economic aid consistently show a stronger positive correlation with GDP growth than military aid. Economic aid is expected to have a stronger positive impact on GDP growth compared to military aid due to its direct impact on infrastructure, education, and markets, whereas military aid may have less consistent economic spillover effects.
 
+## Data
+
+This study uses a cross-sectional design, focusing on the relationship between U.S. foreign aid (economic vs. military) and GDP growth in recipient countries from 2014 to 2020. This design allows for the comparison of aid allocations and their impact on GDP growth at a specific point in time across various countries, without manipulating the timing or experimental treatment of aid.
 
 The Greenbook API dataset below was obtained from data.gov. It includes data on U.S. government (USG) foreign assistance dating back to 1945 to 2020, with the assistance categorized into either economic or military aid.
+
+The gdp dataset was obtained from World Bank Group from https://databank.worldbank.org/reports.aspx?source=2&series=NY.GDP.MKTP.CD&country# 
 
 ```{r}
 library(readxl)
 library(xlsx)
 library(knitr)
+library(tidyverse )
 
 greenbook <- read_excel("us_foreignaid_greenbook.xlsx")
-
+gdp <- read_csv("c64a9fa9-a602-4b88-a7c8-03ac53067b2b_Series - Metadata.csv")
 ```
 
-We will narrow down the large dataset to only look at the last 20 years since 2020.
+We will narrow down the large dataset to only look at the years 2014-2020. 
 
 ```{r}
 library(tidyverse)
 library(dplyr)
 
-greenbook_2000 <- greenbook |>
-  filter(`Fiscal Year` >= 2000)
-greenbook_2000
+greenbook_14 <- greenbook |>
+  filter(`Fiscal Year` >= 2014) |>
+  group_by(Country, `Fiscal Year`, `Assistance Category`) |>
+   summarize(Total_Obligations = sum(`Obligations (Constant Dollars)`, na.rm = TRUE), .groups = "drop") |>
+  pivot_wider(names_from = `Assistance Category`,
+              values_from = Total_Obligations) |>
+  mutate(Total_Obligations = `Economic` + `Military`) |>
+  rename(Year = `Fiscal Year`)
+greenbook_14
+
+gdp_14 <- gdp |>
+  select(-c(`Series Code`, `Country Code`, `1990 [YR1990]`, `2000 [YR2000]`, `2021 [YR2021]`, `2022 [YR2022]`, `2023 [YR2023]`)) |>
+  pivot_longer(cols = starts_with("20"),
+               names_to = "Year", values_to = "GDP") |>
+  mutate(Year = str_extract(Year, "\\d{4}")) |>
+  rename(Country = `Country Name`)
+gdp_14
 ```
 
-Let's plot a graph to see the amount of foreign aid allocations based on different regions.
+Let's join the two datasets.
+```{r}
+greenbook_14 <- greenbook_14 |>
+  mutate(Year = as.character(Year))
+
+gdp_14 <- gdp_14 |>
+  mutate(Year = as.character(Year))
+
+
+joined_book <- greenbook_14 |>
+  left_join(gdp_14, by = c("Country", "Year")) 
+joined_book
+
+
+```
+```{r}
+joined_book <- joined_book |>
+  mutate(GDP = as.numeric(GDP)) |>
+  mutate(Aid_Type = ifelse(Economic > Military, "Economic Aid", "Military Aid")) |>
+  filter(!is.na(Aid_Type))
+
+joined_book <- joined_book |>
+  arrange(Country, Year) |>
+  group_by(Country) |>
+  mutate(GDP_Growth = (GDP - lag(GDP)) / lag(GDP) * 100)
+joined_book
+
+```
+Now that we have everything we need, let's visualize GDP growth
+```{r}
+joined_book |>
+  ggplot(aes(x = Aid_Type, y = GDP_Growth, fill = Aid_Type)) +
+  geom_boxplot() +
+  labs(title = "GDP Growth by Aid Type",
+       x = "Aid Type",
+       y = "GDP Growth (%)")
+```
+
+
+
+### Results
+Now, we can compare the average gdp growth between countries that mainly receive military or economic aid. Because most countries receive both military and economic aid, will simplify our analysis by creating a binary classification based on which type of aid is higher for each country during a given year. Then, we can calculate the mean GDP growth for each group. With this, we can eventually run a linear regression analysis where the null hypothesis is: there is no difference in the mean GDP growth between countries that primarily receive military aid and those that primarily receive economic aid.
 
 ```{r}
-greenbook_2000_Obs <- greenbook_2000 |>
-  group_by(Region) |>
-  summarise(Total_Obligations = sum(`Obligations (Constant Dollars)`, na.rm = TRUE)) 
-
-
-greenbook_2000_Obs|>
-  ggplot(mapping = aes(x = Total_Obligations, 
-                       y = Region)) +
-  geom_col() + 
-  labs(title = "Total U.S. Foreign Aid Allocations by Region (2000-2020)",
-       x = "Total Obligations (Constant Dollars)",
-       y = "Region")
+mean_gdp_growth_by_aid_type <- joined_book |>
+  filter(!is.na(GDP_Growth)) |>
+  group_by(Aid_Type) |>
+  summarise(Mean_GDP_Growth = mean(GDP_Growth, na.rm = TRUE))
+mean_gdp_growth_by_aid_type
 ```
-A little confused on what the 'world' region is. Will check again to make sure from the dataset.
+
+
+```{r}
+mean_gdp_growth_by_aid_type |>
+ggplot(aes(x = Aid_Type, y = Mean_GDP_Growth, fill = Aid_Type)) +
+  geom_bar(stat = "identity") +
+  labs(title = "Mean GDP Growth by Aid Type", x = "Aid Type", y = "Mean GDP Growth (%)") 
+
+mean_gdp_growth_by_aid_type
+  
+```
+This suggests that countries that mainly received military aid sees the highest average gdp growth compared to those that mainly received economic aid.
+
+
+Now let's also see a scatterplot of GDP growth vs. aid amounts (economic/military) to see possible trends.
+```{r}
+joined_book |>
+  ggplot(aes(x = Economic, y = GDP_Growth, color = Aid_Type)) +
+  geom_point() +
+  scale_x_log10() +
+  labs(title = "GDP Growth vs. Economic Aid (Log Scale)",
+       x = "Economic Aid (log scale, in $)",
+       y = "GDP Growth (%)")
+```
+
+
+
+By doing a linear regression analysis, we can study whether economic or military aid has a significant impact on GDP growth.
+```{r}
+model_multiple <- lm(GDP_Growth ~ Economic + Military, data = joined_book)
+model_multiple
+
+modelsummary::modelsummary(model_multiple,
+                           statistic = c("s.e. = {std.error}",
+                                         "p = {p.value}"),
+                           gof_map = c("nobs", "r.squared", "adj.r.squared"))
+
+```
+The regression above estimates the relationship between GDP growth and economic and military aid. At significance level of 0.05, we see that both p-values for Economic aid and Military aid are not statistically significant. This suggests that we cannot reject the null hypothesis that these coefficients are equal to zero, implying no significant relationship between these forms of aid and GDP growth during the study period.
+
+The coeffecients both being 0.000 might be a result of a scaling isue, or a different underlying issue that I was unable to figure out. If I had more time and money, perhaps my data would not be limited to a short sample (7 years). GDP growth might be better tracked over larger periods of time, which I was unable to do due to problems with joining the datasets (one being shorter than the other). 
+
+In conclusion, the regression suggests that there is no strong evidence that economic aid or military aid has an affect on GDP growth on recipent countries, based on the data that was available. There are likely other factors like political stability, governance, and external shocks that influence GDP growth, which are also not accounted for in this simple model.
+
 
 
 
